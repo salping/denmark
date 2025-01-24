@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Canvas Zoom and Pan (Pointer Events)</title>
+  <style>
+    body {
+      margin: 0;
+      overflow: hidden;
+    }
+    canvas {
+      display: block;
+    }
+  </style>
+</head>
+<body>
+<canvas></canvas>
+<script>
+  const canvas = document.querySelector('canvas');
+  const ctx = canvas.getContext('2d');
+
+  let offsetX = 0;
+  let offsetY = 0;
+  let zoom = 1;
+
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+
+  let isDragging = false;
+
+  canvas.addEventListener('pointerdown', () => {
+    isDragging = true;
+  });
+
+  canvas.addEventListener('pointermove', (e) => {
+    if (isDragging) {
+      // Adjust the offset based on pointer movement
+      offsetX += e.movementX;
+      offsetY += e.movementY;
+      draw();
+    }
+  });
+
+  canvas.addEventListener('pointerup', () => {
+    isDragging = false;
+  });
+
+  canvas.addEventListener('wheel', (e) => {
+    e.preventDefault(); // Prevent page scroll
+
+    // Get mouse position relative to canvas
+    const mouseX = e.offsetX;
+    const mouseY = e.offsetY;
+
+    // Get mouse position in "world space" before zoom
+    const worldX = (mouseX - offsetX) / zoom;
+    const worldY = (mouseY - offsetY) / zoom;
+
+    // Update zoom level
+    zoom += e.deltaY * -0.001;
+    zoom = Math.max(0.1, zoom); // Prevent zooming out too much
+
+    // Update offsets to keep zoom centered on mouse
+    offsetX = mouseX - worldX * zoom;
+    offsetY = mouseY - worldY * zoom;
+
+    draw();
+  });
+
+  function draw() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.save();
+    ctx.translate(offsetX, offsetY);
+    ctx.scale(zoom, zoom);
+
+    // Example content: Draw a grid
+    for (let x = 0; x < 1000; x += 50) {
+      for (let y = 0; y < 1000; y += 50) {
+        ctx.strokeStyle = 'gray';
+        ctx.strokeRect(x, y, 50, 50);
+      }
+    }
+
+    ctx.restore();
+  }
+
+  draw();
+</script>
+</body>
+</html>

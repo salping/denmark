@@ -5,27 +5,35 @@
 	<meta name="description" content="game engine">
 	<meta http-equiv="X-UA-Compatible" content="IE=7">
 	<meta charset="UTF-8">
-	<!--	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>-->
-	<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
 	<meta name="color-scheme" content="light dark">
 	<link rel="shortcut icon" href="img/icon.png" type="image/png">
 	<link rel="preconnect" href="https://rsms.me/">
 	<link rel="stylesheet" href="https://rsms.me/inter/inter.css">
 	<link rel="stylesheet" href="styles/style.css">
+	<script type="importmap">
+		{
+		  "imports": {
+			"three": "https://cdn.jsdelivr.net/npm/three@0.171.0/build/three.module.js",
+			"three/addons/": "https://cdn.jsdelivr.net/npm/three@0.171.0/examples/jsm/"
+		  }
+		}
+	</script>
+	<script type="module" src="scripts/classes.js"></script>
 	<title>denmark</title>
 </head>
 <body class="inter-400">
 	<section class="layout">
-		<div class="header">this is the menu bar</div>
-		<div class="leftSide">this is the project structure or something</div>
+		<div class="header"><a>File</a><a>Edit</a><a id="view">View</a><a>Tools</a><a>Window</a><a>Help</a></div>
+		<div class="leftSide"><a>Hierarchy</a></div>
 		<div class="body">
 			<canvas id="canvas"></canvas>
-			<button id="start">⏵</button>
 		</div>
-		<div class="body2">this might be the console</div>
-		<div class="rightSide">i think this is the inspector</div>
-		<div class="footer">this is the footer</div>
+		<div class="body2"><a>Console</a><a>Files</a></div>
+		<div class="rightSide"><a>Inspector</a></div>
+		<div class="footer">No JavaScript?</div>
 	</section>
-	<script src="scripts/script.js"></script>
+	<script type="module" src="scripts/ui.js"></script>
+	<script type="module" src="scripts/engine.js"></script>
 </body>
 </html>
